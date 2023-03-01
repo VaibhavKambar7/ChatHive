@@ -33,7 +33,7 @@ const Login = () => {
       toast({
         title: "Please Fill all the Fields",
         status: "warning",
-        duration: 5000,
+        duration: 3000,
         isClosable: true,
         position: "top",
       });
@@ -60,7 +60,7 @@ const Login = () => {
       toast({
         title: "Login Successful",
         status: "success",
-        duration: 5000,
+        duration: 3000,
         isClosable: true,
         position: "top",
       });
@@ -72,14 +72,14 @@ const Login = () => {
       //navigate to chat page after user login
 
       setLoading(false);
-      navigate.push("/chats");
+      navigate("/chats");
     } catch (error) {
       // await console.log(error);
       toast({
         title: "Error Occured",
         description: error.response.data.message,
         status: "error",
-        duration: 5000,
+        duration: 3000,
         isClosable: true,
         position: "top",
       });

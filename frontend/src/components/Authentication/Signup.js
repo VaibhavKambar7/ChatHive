@@ -36,7 +36,7 @@ const Signup = () => {
       toast({
         title: "Please Select an Image!",
         status: "warning",
-        duration: 5000,
+        duration: 3000,
         isClosable: true,
         position: "top",
       });
@@ -69,7 +69,7 @@ const Signup = () => {
       toast({
         title: "Please Select an Image!",
         status: "warning",
-        duration: 5000,
+        duration: 3000,
         isClosable: true,
         position: "top",
       });
@@ -84,7 +84,7 @@ const Signup = () => {
       toast({
         title: "Please Fill all the Fields",
         status: "warning",
-        duration: 5000,
+        duration: 3000,
         isClosable: true,
         position: "top",
       });
@@ -96,7 +96,7 @@ const Signup = () => {
       toast({
         title: "Passwords do not match",
         status: "warning",
-        duration: 5000,
+        duration: 3000,
         isClosable: true,
         position: "top",
       });
@@ -125,7 +125,7 @@ const Signup = () => {
       toast({
         title: "Registration Successful",
         status: "success",
-        duration: 5000,
+        duration: 3000,
         isClosable: true,
         position: "top",
       });
@@ -136,7 +136,7 @@ const Signup = () => {
 
       //navigate to chat page after user sign up
 
-      navigate.push("/chats");
+      navigate("/chats");
       setLoading(false);
     } catch (error) {
       // await console.log(error);
@@ -144,7 +144,7 @@ const Signup = () => {
         title: "Error Occured",
         description: error.response.data.message,
         status: "error",
-        duration: 5000,
+        duration: 3000,
         isClosable: true,
         position: "top",
       });
