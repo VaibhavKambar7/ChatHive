@@ -9,12 +9,12 @@ import {
   DrawerOverlay,
   Input,
   Menu,
+  HStack,
   MenuButton,
   MenuDivider,
   MenuItem,
   MenuList,
   Text,
-  Toast,
   Tooltip,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -25,15 +25,18 @@ import ProfileModal from "./ProfileModal";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import ChatLoading from "../components/ChatLoading";
-import UserListItem from "../components/UserAvatar/UserListItem";
 import { useToast } from "@chakra-ui/react";
+import { Spinner } from "@chakra-ui/spinner";
+// Toast,
+import UserListItem from "../components/UserAvatar/UserListItem";
+// import MyChats from "../MyChats";
 
 const SideDrawer = () => {
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingChat, setLoadingChat] = useState(false);
-  const { user } = ChatState();
+  const { user, setSelectedChat, chats, setChats } = ChatState();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const navigate = useNavigate();
@@ -65,10 +68,7 @@ const SideDrawer = () => {
         },
       };
 
-      const { data } = await axios.get(
-        `http://localhost:5000/api/user?search=${search}`,
-        config
-      );
+      const { data } = await axios.get(`/api/user?search=${search}`, config);
 
       setLoading(false);
       setSearchResult(data);
@@ -84,7 +84,35 @@ const SideDrawer = () => {
     }
   };
 
-  const accessChat = () => {};
+  const accessChat = async (userId) => {
+    console.log(userId);
+
+    try {
+      setLoadingChat(true);
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+      const { data } = await axios.post(`/api/chat`, { userId }, config);
+
+      if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
+      console.log(data);
+      setSelectedChat(data);
+      setLoadingChat(false);
+      onClose();
+    } catch (error) {
+      toast({
+        title: "Error fetching the chat",
+        description: error.message,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom-left",
+      });
+    }
+  };
 
   return (
     <>
@@ -150,16 +178,32 @@ const SideDrawer = () => {
             {loading ? (
               <ChatLoading />
             ) : (
-              <>
-                {searchResult?.map((user) => (
-                  <UserListItem
-                    key={user._id}
-                    user={user}
-                    handleFunction={() => accessChat(user._id)}
-                  />
-                ))}
-              </>
+              searchResult?.map((user) => (
+                <HStack
+                  key={user._id}
+                  onClick={() => accessChat(user._id)}
+                  p={2}
+                  _hover={{ bg: "gray.200", cursor: "pointer" }}
+                  borderRadius="6px"
+                >
+                  <Avatar size="sm" name={user.name} src={user.pic} />
+                  <Box>
+                    <Text fontWeight="bold">{user.name}</Text>
+                    <Text fontSize="sm">{user.email}</Text>
+                  </Box>
+                </HStack>
+              ))
             )}
+            {/* //   searchResult?.map((user) => (
+          //     <UserListItem */}
+            {/* //       key={user._id}
+          //       user={user}
+          //       onClick={() => accessChat(user._id)}
+          //     />
+          //   ))
+          // )} */}
+            {/* {loadingChat && <Text>hello</Text>} */}
+            {loadingChat && <Spinner ml="auto" d="flex" />}
           </DrawerBody>
         </DrawerContent>
       </Drawer>
