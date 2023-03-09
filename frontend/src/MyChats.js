@@ -1,5 +1,15 @@
 import { AddIcon } from "@chakra-ui/icons";
-import { useToast, Text, Box, Button, Stack } from "@chakra-ui/react";
+import {
+  useToast,
+  Text,
+  Box,
+  Button,
+  Stack,
+  Spacer,
+  Flex,
+  Heading,
+  ButtonGroup,
+} from "@chakra-ui/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import ChatLoading from "./components/ChatLoading";
@@ -23,7 +33,7 @@ const MyChats = () => {
 
       const { data } = await axios.get("/api/chat", config);
       setChats(data);
-      console.log(data);
+      // console.log(data);
     } catch (error) {
       toast({
         title: "Error Occured!",
@@ -52,27 +62,52 @@ const MyChats = () => {
       borderRadius="lg"
       borderWidth="1px"
     >
-      <Box
+      {/* <Box
         pb={3}
         px={3}
         fontSize={{ base: "28px", md: "25px" }}
-        fontFamily="Work sans"
+        fontFamily="Gotham, sans-serif"
         d="flex"
         w="100%"
         justifyContent="space-between"
         alignItems="center"
       >
         My Chats
+        <Spacer />
         <GroupChatModal>
           <Button
             d="flex"
+            fontSize={{ base: "14px", md: "10px", lg: "15px" }}
+            rightIcon={<AddIcon />}
+            // ml={14}
+          >
+            New Group Chat
+          </Button>
+        </GroupChatModal>
+      </Box> */}
+
+      <Flex
+        minWidth="max-content"
+        alignItems="center"
+        gap="2"
+        marginBottom="20px"
+      >
+        <Box pb={1} px={4} fontFamily="Gotham, sans-serif" w="100%">
+          <Heading size="md" fontSize="2xl">
+            My Chats
+          </Heading>
+        </Box>
+        <GroupChatModal>
+          <Button
+            display="flex"
             fontSize={{ base: "14px", md: "10px", lg: "15px" }}
             rightIcon={<AddIcon />}
           >
             New Group Chat
           </Button>
         </GroupChatModal>
-      </Box>
+      </Flex>
+
       <Box
         d="flex"
         flexDir="column"
