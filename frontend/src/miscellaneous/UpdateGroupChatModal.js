@@ -20,6 +20,7 @@ import {
 import { ViewIcon } from "@chakra-ui/icons";
 import { ChatState } from "../Context/ChatProvider";
 import UserBadgeItem from "../components/UserAvatar/UserBadgeItem";
+import axios from "axios";
 
 const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -33,9 +34,42 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
 
   const { selectedChat, setSelectedChat, user } = ChatState();
 
+  const handleRename = async () => {
+    if (!groupChatName) return;
+
+    try {
+      setRenameLoading(true);
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+
+      const { data } = await axios.put(
+        "/api/chat/rename",
+        { chatId: selectedChat._id, chatName: groupChatName },
+        config
+      );
+
+      setSelectedChat(data); //updating it with new data ie new name
+      setFetchAgain(!fetchAgain); //fetching again after if it has changed
+      setRenameLoading(false);
+    } catch (error) {
+      toast({
+        title: "Error Occured",
+        description: error.response.data.message,
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "top",
+      });
+      setRenameLoading(false);
+    }
+    setGroupChatName(""); //set it back to empty
+  };
   const handleRemove = () => {};
   const handleSearch = () => {};
-  const handleRename = () => {};
   return (
     <>
       <IconButton
