@@ -115,15 +115,15 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
       setFetchAgain(!fetchAgain);
       setLoading(false);
 
-        toast({
-          title: `Successfully Added User In The Group `,
+      toast({
+        title: `Successfully Added User In The Group `,
         //   title: `Successfully added ${user1.name} in ${selectedChat.chatName}`,
-          // description: error.response.data.message,
-          status: "success",
-          duration: 3000,
-          isClosable: true,
-          position: "top",
-        });
+        // description: error.response.data.message,
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "top",
+      });
     } catch (error) {
       toast({
         title: "Error Occured",
@@ -137,7 +137,58 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
     }
   };
 
-  const handleRemove = () => {};
+  const handleRemove = async (user1) => {
+    if (selectedChat.groupAdmin._id !== user._id && user1._id !== user._id) {
+      toast({
+        title: "Only Admins Can Remove Somone!",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "top",
+      });
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+
+      const { data } = await axios.put(
+        `/api/chat/groupremove`,
+        {
+          chatId: selectedChat._id,
+          userId: user1._id,
+        },
+        config
+      );
+
+      user1._id === user._id ? setSelectedChat() : setSelectedChat(data);
+      setFetchAgain(!fetchAgain);
+      setLoading(false);
+
+      toast({
+        title: `Successfully Removed User From The Group `,
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "top",
+      });
+    } catch (error) {
+      toast({
+        title: "Error Occured",
+        description: error.response.data.message,
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "top",
+      });
+      setLoading(false);
+    }
+  };
 
   const handleSearch = async (query) => {
     setSearch(query);
