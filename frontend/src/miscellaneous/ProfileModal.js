@@ -19,7 +19,11 @@ function ProfileModal({ user, children }) {
       {children ? (
         <span onClick={onOpen}>{children}</span>
       ) : (
-        <IconButton d={{ base: "flex" }} icon={<ViewIcon />} onClick={isOpen} />
+        <IconButton
+          display={{ base: "flex" }}
+          icon={<ViewIcon />}
+          onClick={onOpen}
+        />
       )}
 
       <Modal size="lg" isOpen={isOpen} onClose={onClose}>

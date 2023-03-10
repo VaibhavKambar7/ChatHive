@@ -17,7 +17,7 @@ import { getSender } from "./config/ChatLogics";
 import { ChatState } from "./Context/ChatProvider";
 import GroupChatModal from "./miscellaneous/GroupChatModal";
 
-const MyChats = () => {
+const MyChats = ({fetchAgain}) => {
   const [loggedUser, setLoggedUser] = useState();
   const { user, selectedChat, setSelectedChat, chats, setChats } = ChatState();
 
@@ -49,7 +49,7 @@ const MyChats = () => {
   useEffect(() => {
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
     fetchChats();
-  }, []);
+  }, [fetchAgain]);
 
   return (
     <Box
@@ -92,7 +92,8 @@ const MyChats = () => {
         gap="2"
         marginBottom="20px"
       >
-        <Box pb={1} px={4} fontFamily="Gotham, sans-serif" w="100%">
+        <Box pb={1} px={4} fontFamily="Gotham, sans-serif" w="100%"
+        ontSize={{ base: "28px", md: "30px" }}>
           <Heading size="md" fontSize="2xl">
             My Chats
           </Heading>
