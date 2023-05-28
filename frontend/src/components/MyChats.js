@@ -12,12 +12,12 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import ChatLoading from "./components/ChatLoading";
-import { getSender } from "./config/ChatLogics";
-import { ChatState } from "./Context/ChatProvider";
-import GroupChatModal from "./miscellaneous/GroupChatModal";
+import ChatLoading from "./ChatLoading";
+import { getSender } from "../config/ChatLogics";
+import { ChatState } from "../Context/ChatProvider";
+import GroupChatModal from "../miscellaneous/GroupChatModal";
 
-const MyChats = ({fetchAgain}) => {
+const MyChats = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState();
   const { user, selectedChat, setSelectedChat, chats, setChats } = ChatState();
 
@@ -33,7 +33,6 @@ const MyChats = ({fetchAgain}) => {
 
       const { data } = await axios.get("/api/chat", config);
       setChats(data);
-      // console.log(data);
     } catch (error) {
       toast({
         title: "Error Occured!",
@@ -62,38 +61,19 @@ const MyChats = ({fetchAgain}) => {
       borderRadius="lg"
       borderWidth="1px"
     >
-      {/* <Box
-        pb={3}
-        px={3}
-        fontSize={{ base: "28px", md: "25px" }}
-        fontFamily="Gotham, sans-serif"
-        d="flex"
-        w="100%"
-        justifyContent="space-between"
-        alignItems="center"
-      >
-        My Chats
-        <Spacer />
-        <GroupChatModal>
-          <Button
-            d="flex"
-            fontSize={{ base: "14px", md: "10px", lg: "15px" }}
-            rightIcon={<AddIcon />}
-            // ml={14}
-          >
-            New Group Chat
-          </Button>
-        </GroupChatModal>
-      </Box> */}
-
       <Flex
         minWidth="max-content"
         alignItems="center"
         gap="2"
         marginBottom="20px"
       >
-        <Box pb={1} px={4} fontFamily="Gotham, sans-serif" w="100%"
-        ontSize={{ base: "28px", md: "30px" }}>
+        <Box
+          pb={1}
+          px={4}
+          fontFamily="Gotham, sans-serif"
+          w="100%"
+          ontSize={{ base: "28px", md: "30px" }}
+        >
           <Heading size="md" fontSize="2xl">
             My Chats
           </Heading>
@@ -115,7 +95,7 @@ const MyChats = ({fetchAgain}) => {
         p={3}
         bg="#F8F8F8"
         w="100%"
-        h="100%"
+        h="88%"
         borderRadius="lg"
         overflowY="hidden"
       >
@@ -125,8 +105,8 @@ const MyChats = ({fetchAgain}) => {
               <Box
                 onClick={() => setSelectedChat(chat)}
                 cursor="pointer"
-                bg={selectedChat === chat ? "#38B2AC" : "#E8E8E8"}
-                color={selectedChat === chat ? "white" : "black"}
+                bg={selectedChat === chat ? "#b4b4b4" : "#E8E8E8"}
+                // color={selectedChat === chat ? "white" : "black"}
                 px={3}
                 py={2}
                 borderRadius="lg"

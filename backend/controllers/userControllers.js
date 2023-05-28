@@ -54,10 +54,10 @@ const authUser = asyncHandler(async (req, res) => {
   } else {
     res.status(401);
     throw new Error("Invalid Email or Password");
+    console.log(e);
   }
 });
 
-// api/user?search=piyush
 const allUsers = asyncHandler(async (req, res) => {
   const keyword = req.query.search
     ? {
@@ -68,15 +68,9 @@ const allUsers = asyncHandler(async (req, res) => {
       }
     : {};
 
-  // console.log(keyword)
-
   const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
 
-  // console.log("---------------")
-  // console.log(users)
   res.send(users);
-
-  // console.log(keyword);
 });
 
 module.exports = { registerUser, authUser, allUsers };

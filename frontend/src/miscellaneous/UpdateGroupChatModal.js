@@ -24,7 +24,7 @@ import UserBadgeItem from "../components/UserAvatar/UserBadgeItem";
 import axios from "axios";
 import UserItemList from "../components/UserAvatar/UserListItem";
 
-const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
+const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [groupChatName, setGroupChatName] = useState();
   const [search, setSearch] = useState("");
@@ -117,8 +117,6 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
 
       toast({
         title: `Successfully Added User In The Group `,
-        //   title: `Successfully added ${user1.name} in ${selectedChat.chatName}`,
-        // description: error.response.data.message,
         status: "success",
         duration: 3000,
         isClosable: true,
@@ -168,6 +166,7 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
 
       user1._id === user._id ? setSelectedChat() : setSelectedChat(data);
       setFetchAgain(!fetchAgain);
+      fetchMessages();
       setLoading(false);
 
       toast({

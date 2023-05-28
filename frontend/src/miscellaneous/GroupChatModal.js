@@ -47,7 +47,6 @@ const GroupChatModal = ({ children }) => {
       };
 
       const { data } = await axios.get(`/api/user?search=${search}`, config);
-      console.log(data);
       setLoading(false);
       setSearchResult(data);
     } catch (error) {
@@ -184,21 +183,6 @@ const GroupChatModal = ({ children }) => {
                   />
                 ))
             )}
-            {/* searchResult?.map((user) => (
-                <HStack
-                  key={user._id}
-                  onClick={() => accessChat(user._id)}
-                  p={2}
-                  _hover={{ bg: "gray.200", cursor: "pointer" }}
-                  borderRadius="6px"
-                >
-                  <Avatar size="sm" name={user.name} src={user.pic} />
-                  <Box>
-                    <Text fontWeight="bold">{user.name}</Text>
-                    <Text fontSize="sm">{user.email}</Text>
-                  </Box>
-                </HStack>
-              )) */}
           </ModalBody>
 
           <ModalFooter>
