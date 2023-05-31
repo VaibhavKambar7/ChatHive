@@ -16,11 +16,16 @@ import UpdateGroupChatModal from "../miscellaneous/UpdateGroupChatModal";
 import axios from "axios";
 import "./styles.css";
 import ScrollableChat from "./ScrollableChat";
+import { io } from "socket.io-client";
+
+const ENDPOINT = "http://localhost:5000";
+var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [newMessage, setNewMessage] = useState("");
+  const [socketConnected, setSocketConnected] = useState(false);
 
   const toast = useToast();
 
@@ -48,6 +53,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
       setMessages(data);
       setLoading(false);
+
+      socket.emit("join chat", selectedChat._id);
     } catch (error) {
       toast({
         title: "Error Occured!",
@@ -61,8 +68,29 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   };
 
   useEffect(() => {
+    socket = io(ENDPOINT);
+    socket.emit("setup", user);
+    socket.on("connected", () => setSocketConnected(true));
+  }, []);
+
+  useEffect(() => {
     fetchMessages();
+
+    selectedChatCompare = selectedChat;
   }, [selectedChat]);
+
+  useEffect(() => {
+    socket.on("message recieved", (newMessageRecieved) => {
+      if (
+        !selectedChatCompare ||
+        selectedChatCompare._id !== newMessageRecieved.chat._id
+      ) {
+        //give notification
+      } else {
+        setMessages([...messages, newMessageRecieved]);
+      }
+    });
+  });
 
   const sendMessage = async (event) => {
     if (!newMessage) return;
@@ -88,6 +116,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
         setMessages([...messages, data]);
         console.log(data);
+
+        socket.emit("new message", data);
       } catch (error) {
         toast({
           title: "Error Occured",
@@ -151,7 +181,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             p={3}
             bg="#DADADA"
             w="100%"
-            h="calc(100% - 60px)" 
+            h="calc(100% - 60px)"
             borderRadius="lg"
             overflowY="scroll"
             ref={chatContainerRef}
@@ -165,7 +195,13 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             )}
           </Box>
 
-          <Box position="sticky" bottom="3" width="100%" height="10%" backgroundColor="E0E0E0">
+          <Box
+            position="sticky"
+            bottom="3"
+            width="100%"
+            height="10%"
+            backgroundColor="E0E0E0"
+          >
             <FormControl onKeyDown={sendMessage} isRequired>
               <Input
                 variant="filled"
