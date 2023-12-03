@@ -17,6 +17,17 @@ import axios from "axios";
 import "./styles.css";
 import ScrollableChat from "./ScrollableChat";
 import { io } from "socket.io-client";
+import Lottie from "react-lottie";
+import animationData from "../animations/typing.json";
+
+const defaultOptions = {
+  loop: true,
+  autoplay: true,
+  animationData: animationData,
+  renderSettings: {
+    preserverAspectRatio: "xMidYMid slice",
+  },
+};
 
 const ENDPOINT = "http://localhost:5000";
 var socket, selectedChatCompare;
@@ -31,7 +42,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
   const toast = useToast();
 
-  const { user, selectedChat, setSelectedChat } = ChatState();
+  const { user, selectedChat, setSelectedChat, notification, setNotification } =
+    ChatState();
   const chatContainerRef = useRef(null);
 
   const fetchMessages = async () => {
@@ -51,7 +63,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         config
       );
 
-      console.log(messages);
+      //console.log(messages);
 
       setMessages(data);
       setLoading(false);
@@ -83,13 +95,18 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     selectedChatCompare = selectedChat;
   }, [selectedChat]);
 
+  console.log(notification, ".......................");
+
   useEffect(() => {
     socket.on("message recieved", (newMessageRecieved) => {
       if (
         !selectedChatCompare ||
         selectedChatCompare._id !== newMessageRecieved.chat._id
       ) {
-        //give notification
+        if (!notification.includes(newMessageRecieved)) {
+          setNotification([newMessageRecieved, ...notification]);
+          setFetchAgain(!fetchAgain);
+        }
       } else {
         setMessages([...messages, newMessageRecieved]);
       }
@@ -120,7 +137,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         );
 
         setMessages([...messages, data]);
-        console.log(data);
+        //console.log(data);
 
         socket.emit("new message", data);
       } catch (error) {
@@ -229,7 +246,17 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             backgroundColor="E0E0E0"
           >
             <FormControl onKeyDown={sendMessage} isRequired>
-              {isTyping ? <div>Typing...</div> : <></>}
+              {isTyping ? (
+                <div>
+                  <Lottie
+                    options={defaultOptions}
+                    width={70}
+                    style={{ marginBottom: 15, marginLeft: 0 }}
+                  />
+                </div>
+              ) : (
+                <></>
+              )}
               <Input
                 variant="filled"
                 bg="#E0E0E0"

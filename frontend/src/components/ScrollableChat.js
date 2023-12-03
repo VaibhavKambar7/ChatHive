@@ -8,12 +8,20 @@ import {
   isSameUser,
 } from "../config/ChatLogics";
 import { ChatState } from "../Context/ChatProvider";
+import { useEffect, useRef } from "react";
 
 const ScrollableChat = ({ messages }) => {
   const { user } = ChatState();
+  const bottomRef = useRef();
+
+  useEffect(() => {
+    bottomRef.current.style.scrollBehavior = "auto"; 
+    bottomRef.current.scrollIntoView();
+    bottomRef.current.style.scrollBehavior = "smooth"; 
+      }, [messages]);
 
   return (
-    <ScrollableFeed>
+    <ScrollableFeed forceScroll={false}>
       {messages &&
         messages.map((m, i) => (
           <div style={{ display: "flex" }} key={m._id}>
@@ -35,7 +43,7 @@ const ScrollableChat = ({ messages }) => {
                 backgroundColor: `${
                   m.sender._id === user._id ? "#005c4b" : "#004b99"
                 }`,
-                color:"white",
+                color: "white",
                 marginLeft: isSameSenderMargin(messages, m, i, user._id),
                 marginTop: isSameUser(messages, m, i, user._id) ? 3 : 10,
                 borderRadius: "9px",
@@ -47,6 +55,7 @@ const ScrollableChat = ({ messages }) => {
             </span>
           </div>
         ))}
+      <div ref={bottomRef} />
     </ScrollableFeed>
   );
 };

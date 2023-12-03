@@ -3,7 +3,7 @@
 .App {
   min-height: 100vh;
   display: flex;
-  background-image: url("./bgg.webp");
+  background-image: url("./bgg.jpg");
   background-size: 300px;
 }
 

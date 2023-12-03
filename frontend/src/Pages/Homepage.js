@@ -1,6 +1,14 @@
 import React, { useEffect } from "react";
-import { Box, Container, Text } from "@chakra-ui/react";
-import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
+import {
+  Box,
+  Container,
+  Text,
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel,
+} from "@chakra-ui/react";
 import Login from "../components/Authentication/Login";
 import Signup from "../components/Authentication/Signup";
 import { useNavigate } from "react-router-dom";
@@ -19,9 +27,9 @@ const Homepage = () => {
         className="box"
         display="flex"
         justifyContent="center"
-        p={4} //padding
-        bg={"white"}
-        w="100%"
+        p={4} // padding
+        bg="white"
+        w="90%"
         m="40px 0 15px 0"
         borderRadius="1g"
         borderWidth="1px"
@@ -34,12 +42,12 @@ const Homepage = () => {
         >
           Chat-App
         </Text> */}
-        <Text fontSize="2xl" fontFamily="Helvetica " fontWeight="bold">
-          WhatsApp
+        <Text fontSize="2xl" fontFamily="Helvetica" fontWeight="bold">
+          ChatHive
         </Text>
       </Box>
 
-      <Box bg="white" w="100%" p={4} borderRadius="lg" borderWidth="1px">
+      <Box bg="white" w="90%" p={4} borderRadius="lg" borderWidth="1px">
         <Tabs variant="soft-rounded">
           <TabList mb="1em">
             <Tab width="50%">Login</Tab>

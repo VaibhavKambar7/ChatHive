@@ -134,7 +134,7 @@ const SideDrawer = () => {
           </Button>
         </Tooltip>
         <Text fontSize="2xl" fontFamily="Helvetica " fontWeight="bold">
-          WhatsApp
+          ChatHive
         </Text>
         <div>
           <Menu>

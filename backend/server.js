@@ -1,5 +1,4 @@
 const express = require("express");
-const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const { chats } = require("./data/data");
 const userRoutes = require("./routes/userRoutes");
@@ -7,10 +6,14 @@ const chatRoutes = require("./routes/chatRoutes");
 const messageRoutes = require("./routes/messageRoutes");
 const { notFound, errorHandler } = require("./middlewares/errorMiddleware");
 
-dotenv.config();
+//const dotenv = require("dotenv");
+//dotenv.config();
+
+const path = require("path");
+require("dotenv").config({ path: path.resolve(__dirname, "./.env") });
+
 connectDB();
 const app = express();
-
 const cors = require("cors");
 app.use(cors());
 
@@ -63,5 +66,10 @@ io.on("connection", (socket) => {
 
       socket.in(user._id).emit("message recieved", newMessageRecieved);
     });
+  });
+
+  socket.off("setup", () => {
+    console.log("USER DISCONNECTED");
+    socket.leave(userData._id);
   });
 });
