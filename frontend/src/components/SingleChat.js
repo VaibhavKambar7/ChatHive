@@ -136,10 +136,10 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           config
         );
 
+        socket.emit("new message", data);
         setMessages([...messages, data]);
         //console.log(data);
 
-        socket.emit("new message", data);
       } catch (error) {
         toast({
           title: "Error Occured",

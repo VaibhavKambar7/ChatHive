@@ -1,7 +1,5 @@
 {
   "dependencies": {
-    "@chakra-ui/hooks": "^2.1.6",
-    "@chakra-ui/icons": "^2.0.17",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
@@ -18,7 +16,8 @@
     "nodemon": "^2.0.20"
   },
   "scripts": {
-    "start": "nodemon backend/server.js"
+    "start": "nodemon server.js",
+    "dev": "nodemon server.js"
   },
   "author": "Vaibhav Kambar",
   "license": "ISC",
