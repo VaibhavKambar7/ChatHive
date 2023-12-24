@@ -87,7 +87,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     socket.on("connected", () => setSocketConnected(true));
     socket.on("typing", () => setIsTyping(true));
     socket.on("stop typing", () => setIsTyping(false));
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     fetchMessages();
@@ -139,7 +139,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         socket.emit("new message", data);
         setMessages([...messages, data]);
         //console.log(data);
-
       } catch (error) {
         toast({
           title: "Error Occured",
