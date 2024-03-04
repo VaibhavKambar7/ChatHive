@@ -9,7 +9,7 @@ const cors = require("cors");
 const socketService = require("./services/socket");
 
 const path = require("path");
-require("dotenv").config({ path: path.resolve(__dirname, "./.env") });
+require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
 
 connectDB();
 const app = express();
