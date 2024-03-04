@@ -60,7 +60,7 @@ const MyChats = ({ fetchAgain }) => {
       w={{ base: "100%", md: "31%" }}
       borderRadius="1px"
       borderWidth="1px"
-      borderColor="gray.00"
+      borderColor="gray.600"
     >
       <Flex
         minWidth="max-content"
