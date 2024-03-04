@@ -56,10 +56,11 @@ const MyChats = ({ fetchAgain }) => {
       flexDir="column"
       alignItems="center"
       p={3}
-      bg="white"
+      bg="#202C33"
       w={{ base: "100%", md: "31%" }}
-      borderRadius="lg"
+      borderRadius="1px"
       borderWidth="1px"
+      borderColor="gray.00"
     >
       <Flex
         minWidth="max-content"
@@ -73,16 +74,20 @@ const MyChats = ({ fetchAgain }) => {
           fontFamily="Gotham, sans-serif"
           w="100%"
           ontSize={{ base: "28px", md: "30px" }}
+          color={"white"}
         >
           <Heading size="md" fontSize="2xl">
             My Chats
           </Heading>
         </Box>
-        <GroupChatModal>
+        <GroupChatModal color={"#202124"}>
           <Button
             display="flex"
             fontSize={{ base: "14px", md: "10px", lg: "15px" }}
-            rightIcon={<AddIcon />}
+            rightIcon={<AddIcon color={"white"} />}
+            bg={"#202124"}
+            textColor={"white"}
+            _hover={{ backgroundColor: "#0B141A" }}
           >
             New Group Chat
           </Button>
@@ -93,7 +98,7 @@ const MyChats = ({ fetchAgain }) => {
         d="flex"
         flexDir="column"
         p={3}
-        bg="#F8F8F8"
+        bg="#2A3942"
         w="100%"
         h="88%"
         borderRadius="lg"
@@ -105,20 +110,20 @@ const MyChats = ({ fetchAgain }) => {
               <Box
                 onClick={() => setSelectedChat(chat)}
                 cursor="pointer"
-                bg={selectedChat === chat ? "#b4b4b4" : "#E8E8E8"}
+                bg={selectedChat === chat ? "#202124" : "#202C33"}
                 // color={selectedChat === chat ? "white" : "black"}
                 px={3}
                 py={2}
                 borderRadius="lg"
                 key={chat._id}
               >
-                <Text>
+                <Text color={"white"}>
                   {!chat.isGroupChat
                     ? getSender(loggedUser, chat.users)
                     : chat.chatName}
                 </Text>
                 {chat.latestMessage && (
-                  <Text fontSize="xs">
+                  <Text fontSize="xs" color={"#86897A"}>
                     <b>{chat.latestMessage.sender.name} : </b>
                     {chat.latestMessage.content.length > 50
                       ? chat.latestMessage.content.substring(0, 51) + "..."

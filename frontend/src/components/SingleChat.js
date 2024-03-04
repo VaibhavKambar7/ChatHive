@@ -19,6 +19,7 @@ import ScrollableChat from "./ScrollableChat";
 import { io } from "socket.io-client";
 import Lottie from "react-lottie";
 import animationData from "../animations/typing.json";
+import { Divider } from "@chakra-ui/react";
 
 const defaultOptions = {
   loop: true,
@@ -63,15 +64,13 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         config
       );
 
-      //console.log(messages);
-
       setMessages(data);
       setLoading(false);
 
       socket.emit("join chat", selectedChat._id);
     } catch (error) {
       toast({
-        title: "Error Occured!",
+        title: "Error Occurred!",
         description: "Failed to load the messages",
         status: "error",
         duration: 5000,
@@ -85,30 +84,27 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     socket = io(ENDPOINT);
     socket.emit("setup", user);
     socket.on("connected", () => setSocketConnected(true));
-    socket.on("typing", () => setIsTyping(true));
+    socket.on("typing", (userId) => setIsTyping(userId !== user._id)); 
     socket.on("stop typing", () => setIsTyping(false));
   }, [user]);
 
   useEffect(() => {
     fetchMessages();
-
     selectedChatCompare = selectedChat;
   }, [selectedChat]);
 
-  console.log(notification, ".......................");
-
   useEffect(() => {
-    socket.on("message recieved", (newMessageRecieved) => {
+    socket.on("message received", (newMessageReceived) => {
       if (
         !selectedChatCompare ||
-        selectedChatCompare._id !== newMessageRecieved.chat._id
+        selectedChatCompare._id !== newMessageReceived.chat._id
       ) {
-        if (!notification.includes(newMessageRecieved)) {
-          setNotification([newMessageRecieved, ...notification]);
+        if (!notification.includes(newMessageReceived)) {
+          setNotification([newMessageReceived, ...notification]);
           setFetchAgain(!fetchAgain);
         }
       } else {
-        setMessages([...messages, newMessageRecieved]);
+        setMessages([...messages, newMessageReceived]);
       }
     });
   });
@@ -138,10 +134,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
         socket.emit("new message", data);
         setMessages([...messages, data]);
-        //console.log(data);
       } catch (error) {
         toast({
-          title: "Error Occured",
+          title: "Error Occurred",
           description: "Failed to send the messages",
           status: "error",
           duration: 3000,
@@ -158,8 +153,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     if (!socketConnected) return;
 
     if (!typing) {
-      //was default set to false
-
       setTyping(true);
       socket.emit("typing", selectedChat._id);
     }
@@ -192,8 +185,12 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             display="flex"
             justifyContent={{ base: "space-between" }}
             alignItems="center"
+            color="white"
           >
             <IconButton
+              color="white"
+              background="black"
+              _hover={{ backgroundColor: "#0B141A" }}
               display={{ base: "flex", md: "none" }}
               icon={<ArrowBackIcon />}
               onClick={() => setSelectedChat("")}
@@ -201,11 +198,31 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             {!selectedChat.isGroupChat ? (
               <>
                 {getSender(user, selectedChat.users)}
+                {/* Typing animation (Lottie) */}
+                {isTyping && (
+                  <div style={{ marginRight: "10px", marginTop: "4px" }}>
+                    <Lottie
+                      options={defaultOptions}
+                      width={50}
+                      style={{ marginBottom: 0 }}
+                    />
+                  </div>
+                )}
                 <ProfileModal user={getSenderFull(user, selectedChat.users)} />
               </>
             ) : (
               <>
                 {selectedChat.chatName.toUpperCase()}
+                {/* Typing animation (Lottie) */}
+                {isTyping && (
+                  <div style={{ marginRight: "10px" }}>
+                    <Lottie
+                      options={defaultOptions}
+                      width={50}
+                      style={{ marginBottom: 0 }}
+                    />
+                  </div>
+                )}
                 <UpdateGroupChatModal
                   fetchAgain={fetchAgain}
                   setFetchAgain={setFetchAgain}
@@ -214,6 +231,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               </>
             )}
           </Text>
+          {/* <div style={{ color: "white" }}>hi</div> */}
+
+          <Divider borderColor="gray.700" />
 
           <Box
             d="flex"
@@ -221,7 +241,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             justifyContent="space-between"
             position="relative"
             p={3}
-            bg="#DADADA"
+            bg="#202C33"
             w="100%"
             h="calc(100% - 60px)"
             borderRadius="lg"
@@ -242,28 +262,21 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             bottom="3"
             width="100%"
             height="10%"
-            backgroundColor="E0E0E0"
+            backgroundColor="#0B141A"
           >
             <FormControl onKeyDown={sendMessage} isRequired>
-              {isTyping ? (
-                <div>
-                  <Lottie
-                    options={defaultOptions}
-                    width={70}
-                    style={{ marginBottom: 15, marginLeft: 0 }}
-                  />
-                </div>
-              ) : (
-                <></>
-              )}
               <Input
                 variant="filled"
-                bg="#E0E0E0"
+                bg="#2A3942"
                 placeholder="Type a message..."
                 onChange={typingHandler}
                 value={newMessage}
-                borderColor="gray.200"
                 borderWidth="2px"
+                borderRadius="2px"
+                color="white"
+                background="none"
+                _hover={{ backgroundColor: "#0B141A" }}
+                focusBorderColor="#no"
               />
             </FormControl>
           </Box>
@@ -275,7 +288,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           justifyContent="center"
           h="100%"
         >
-          <Text fontSize="3xl" pb={3} fontFamily="Work sans">
+          <Text fontSize="3xl" pb={3} fontFamily="Work sans" color={"white"}>
             Click on a user to start chatting
           </Text>
         </Box>

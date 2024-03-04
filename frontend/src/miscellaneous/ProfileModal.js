@@ -23,13 +23,22 @@ function ProfileModal({ user, children }) {
           display={{ base: "flex" }}
           icon={<ViewIcon />}
           onClick={onOpen}
+          color={"white"}
+          background={"black"}
+          _hover={{ backgroundColor: "#0B141A" }}
         />
       )}
 
-      <Modal size="lg" isOpen={isOpen} onClose={onClose}>
+      <Modal size="lg" isOpen={isOpen} onClose={onClose} background={"black"}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader fontSize="30px" display="flex" justifyContent="center">
+          <ModalHeader
+            fontSize="30px"
+            display="flex"
+            justifyContent="center"
+            bg={"#202124"}
+            color="white"
+          >
             {user.name}
           </ModalHeader>
           <ModalCloseButton />
@@ -38,6 +47,7 @@ function ProfileModal({ user, children }) {
             flexDir="column"
             alignItems="center"
             justifyContent="space-between"
+            bg={"#202124"}
           >
             <Image
               borderRadius="full"
@@ -54,6 +64,8 @@ function ProfileModal({ user, children }) {
             flexDir="column"
             alignItems="center"
             justifyContent="space-between"
+            bg={"#202124"}
+            color="white"
           >
             {user.email}
           </ModalFooter>

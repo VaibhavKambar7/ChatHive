@@ -108,20 +108,25 @@ const Login = () => {
       </FormControl>
 
       <Button
-        colorScheme="blue"
-        width="100%"
-        color="white"
-        style={{ marginTop: 15 }}
+        variant="contained"
+        color="primary" // Using primary color for the button
+        fullWidth
+        style={{ marginTop: 15, backgroundColor: "#333", color: "#fff" }} // Dark background and light text color
         onClick={submitHandler}
-        isLoading={loading}
+        disabled={loading}
       >
         Login
       </Button>
 
       <Button
-        variant="solid"
-        colorScheme="red"
-        width="100%"
+        variant="contained"
+        fullWidth
+        style={{
+          marginTop: 15,
+          backgroundColor: "#444",
+          color: "#fff",
+          border: "1px solid #333",
+        }} // Dark background, light text color, and border
         onClick={() => {
           setEmail("guest@example.com");
           setPassword("123456");

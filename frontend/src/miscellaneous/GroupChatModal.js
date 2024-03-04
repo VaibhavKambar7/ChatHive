@@ -138,11 +138,23 @@ const GroupChatModal = ({ children }) => {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader fontSize="30px" display="flex" justifyContent="center">
+          <ModalHeader
+            fontSize="30px"
+            display="flex"
+            justifyContent="center"
+            color={"white"}
+            background="#202124"
+          >
             Create Group Chat
           </ModalHeader>
-          <ModalCloseButton />
-          <ModalBody display="flex" flexDir="column" alignItems="center">
+          <ModalCloseButton color="white" />
+          <ModalBody
+            display="flex"
+            flexDir="column"
+            alignItems="center"
+            color={"white"}
+            background={"#202124"}
+          >
             <FormControl>
               <Input
                 placeholder="Group Name"
@@ -185,8 +197,14 @@ const GroupChatModal = ({ children }) => {
             )}
           </ModalBody>
 
-          <ModalFooter>
-            <Button colorScheme="blue" onClick={handleSubmit}>
+          <ModalFooter background={"#202124"}>
+            <Button
+              colorScheme="blue"
+              onClick={handleSubmit}
+              _hover={{ backgroundColor: "#0B141A" }}
+              backgroundColor="#333"
+              color="#fff"
+            >
               Create Group
             </Button>
           </ModalFooter>

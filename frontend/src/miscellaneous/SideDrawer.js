@@ -127,21 +127,36 @@ const SideDrawer = () => {
         display="flex"
         justifyContent="space-between"
         alignItems="center"
-        bg="white"
+        bg="#202C33"
         w="100%"
         p="5px 10px 5px 10px"
-        borderWidth="5px"
       >
         <Tooltip label="Search Users   to Chat" hasArrow placement="bottom-end">
-          <Button variant="ghost" onClick={onOpen}>
+          <Button
+            variant="ghost"
+            onClick={onOpen}
+            bg={"#202124"}
+            color="white"
+            _hover={{ backgroundColor: "#0B141A" }}
+          >
             <i class="fa fa-search" aria-hidden="true"></i>
-            <Text display={{ base: "none ", md: "flex" }} px="4">
+            <Text
+              display={{ base: "none ", md: "flex" }}
+              px="4"
+              color="white"
+              _hover={{ backgroundColor: "#0B141A" }}
+            >
               Search Users
             </Text>
           </Button>
         </Tooltip>
-        <Text fontSize="2xl" fontFamily="Helvetica " fontWeight="bold">
-          ChatHive
+        <Text
+          fontSize="2xl"
+          fontFamily="Helvetica "
+          fontWeight="bold"
+          color="white"
+        >
+          {/* ChatHive */}
         </Text>
         <div>
           <Menu>
@@ -150,13 +165,14 @@ const SideDrawer = () => {
                 count={notification.length}
                 effect={Effect.SCALE}
               />
-              <BellIcon fontSize="2xl" />
+              <BellIcon fontSize="2xl" color="#0f1411" />
             </MenuButton>
             <MenuList pl={2}>
               {!notification.length && "No New Messages"}
               {notification.map((notif) => (
                 <MenuItem
-                  key={notif._id}
+                background={"#202124"}            
+                      key={notif._id}
                   onClick={() => {
                     setSelectedChat(notif.chat);
                     setNotification(notification.filter((n) => n !== notif));
@@ -170,7 +186,13 @@ const SideDrawer = () => {
             </MenuList>
           </Menu>
           <Menu>
-            <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+            <MenuButton
+              as={Button}
+              rightIcon={<ChevronDownIcon />}
+              bg="#161f1a"
+              _hover={{ backgroundColor: "black" }}
+              color={"grey"}
+            >
               <Avatar
                 size="sm"
                 cursor="pointer"
@@ -178,12 +200,24 @@ const SideDrawer = () => {
                 src={user.pic}
               />
             </MenuButton>
-            <MenuList>
-              <ProfileModal user={user}>
-                <MenuItem>My Profile</MenuItem>
+            <MenuList color={"white"} background={"#202124"}>
+              <ProfileModal
+                user={user}
+                color="#78997A"
+                _hover={{ backgroundColor: "#0B141A" }}
+              >
+                <MenuItem color={"white"} background={"#202124"}>
+                  My Profile
+                </MenuItem>
               </ProfileModal>
               <MenuDivider />
-              <MenuItem onClick={logoutHandler}>Log Out</MenuItem>
+              <MenuItem
+                color={"white"}
+                background={"#202124"}
+                onClick={logoutHandler}
+              >
+                Log Out
+              </MenuItem>
             </MenuList>
           </Menu>
         </div>
@@ -191,13 +225,20 @@ const SideDrawer = () => {
       <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
         <DrawerContent borderWidth="1px">
-          <DrawerHeader borderBottomWidth="1px">Search Users</DrawerHeader>
-          <DrawerBody>
-            <Box display="flex" pb={2}>
+          <DrawerHeader
+            borderBottomWidth="1px"
+            backgroundColor="#0B141A"
+            color="white"
+          >
+            Search Users
+          </DrawerHeader>
+          <DrawerBody backgroundColor="#0B141A">
+            <Box display="flex" pb={2} backgroundColor="#0B141A">
               <Input
                 placeholder="Search by name or email"
                 mr={2}
                 value={search}
+                color="white"
                 onChange={(e) => setSearch(e.target.value)}
               />
               <Button onClick={handleSearch}>Go</Button>

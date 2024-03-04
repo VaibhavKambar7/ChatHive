@@ -22,19 +22,20 @@ const Homepage = () => {
   }, [navigate]);
 
   return (
-    <Container maxW="xl" centerContent>
-      <Box
+    <Container maxW="xl" marginBottom="20px" centerContent>
+      {/* <Box
         className="box"
         display="flex"
         justifyContent="center"
         p={4} // padding
-        bg="white"
+        bg="black"
         w="90%"
         m="40px 0 15px 0"
         borderRadius="1g"
         borderWidth="1px"
-      >
-        {/* <Text
+
+      > */}
+      {/* <Text
           fontSize="4xl"
           fontFamily="Work Sans"
           fontWeight="bold"
@@ -42,12 +43,20 @@ const Homepage = () => {
         >
           Chat-App
         </Text> */}
-        <Text fontSize="2xl" fontFamily="Helvetica" fontWeight="bold">
+      {/* <Text fontSize="2xl" fontFamily="Helvetica" fontWeight="bold">
           ChatHive
         </Text>
-      </Box>
+      </Box> */}
 
-      <Box bg="white" w="90%" p={4} borderRadius="lg" borderWidth="1px">
+      <Box
+        bg="white"
+        w="80%"
+        // h="70%"
+        p={4}
+        borderRadius="lg"
+        borderWidth="1px"
+        marginTop="70px"
+      >
         <Tabs variant="soft-rounded">
           <TabList mb="1em">
             <Tab width="50%">Login</Tab>
